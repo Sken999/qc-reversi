@@ -1,0 +1,99 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  color: #333;
+}
+
+#current-player {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#score-board {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(8, 50px);
+  grid-gap: 2px;
+  margin: 20px auto;
+  width: 404px;
+}
+
+.cell {
+  width: 50px;
+  height: 50px;
+  background-color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+}
+
+.cell.black {
+  background-color: black;
+  border-radius: 50%;
+}
+
+.cell.white {
+  background-color: white;
+  border-radius: 50%;
+}
+
+.cell.highlight {
+  background-color: yellow;
+  opacity: 0.8;
+}
+
+#popup-message {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  background-color: #ffffe0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.cell.grayPlus::before {
+  content: "+";
+  color: black;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.cell.grayMinus::before {
+  content: "-";
+  color: black;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.cell.grayPlus, .cell.grayMinus {
+  background-color: gray;
+  border-radius: 50%;
+}
+
+button {
+  display: inline-block;
+}
+
+button[style="display: none;"] {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
