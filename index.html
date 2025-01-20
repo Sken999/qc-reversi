@@ -39,9 +39,14 @@
       Black: <span id="black-count">15</span>, Gray(-): <span id="grayMinus-count">15</span>
     </div>
     <div id="score-board">BLack: 2 | White: 2 | Gray: 0 </div>
-  <div id="button-board"></div>
-  <div id="game-board"></div>
+  <div id="button-container" class="hidden">
+    <button id="select-white">White</button>
+    <button id="select-grayPlus">Gray(+)</button>
+    <button id="select-black">Black</button>
+    <button id="select-grayMinus">Gray(-)</button>
+  </div>
   <div id="popup-message" class="hidden"></div>
+  <div id="game-board"></div>
   <button id="reset-button">リセット</button>
 
   <script>
@@ -68,24 +73,10 @@
       board[4][4] = "white";
       board[3][4] = "black";
       board[4][3] = "black";
-      // board[5][3] = "grayPlus";
-      // board[5][4] = "grayMinus";
+
 
       const gameBoard = document.getElementById("game-board");
       gameBoard.innerHTML = "";
-
-      // 駒選択UIの生成
-      const pieceSelector = document.createElement("div");
-      pieceSelector.id = "piece-selector";
-      pieceSelector.innerHTML = `
-        <button id="select-white">White</button>
-        <button id="select-grayPlus">Gray(+)</button>
-        <button id="select-black">Black</button>
-        <button id="select-grayMinus">Gray(-)</button>
-      `;
-      // #info のあとに駒選択UIを追加
-      const infoDiv = document.getElementById("button-board");
-      infoDiv.insertBefore(pieceSelector, infoDiv.firstChild);
 
       // 駒選択イベントリスナー
       document.getElementById("select-white").addEventListener("click", () => selectPiece("white"));
@@ -93,13 +84,13 @@
       document.getElementById("select-black").addEventListener("click", () => selectPiece("black"));
       document.getElementById("select-grayMinus").addEventListener("click", () => selectPiece("grayMinus"));
 
-      // 駒選択イベントリスナーの設定後
+      // // 駒選択イベントリスナーの設定後
       updatePieceSelector();
 
       // 駒数の表示更新
       updatePieceCount();
 
-
+      // 盤面の生成
       board.forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
           const cellDiv = document.createElement("div");
@@ -330,6 +321,9 @@
       highlightAvailableMoves();
     }
 
+
+
+
     //駒選択ボタンの表示更新関数
     function updatePieceSelector() {
       const selectWhite = document.getElementById("select-white");
@@ -337,24 +331,28 @@
       const selectBlack = document.getElementById("select-black");
       const selectGrayMinus = document.getElementById("select-grayMinus");
 
-      // 全てのボタンを非表示
-      selectWhite.style.display = "none";
-      selectGrayPlus.style.display = "none";
-      selectBlack.style.display = "none";
-      selectGrayMinus.style.display = "none";
+      function showButtons(buttons) {
+        [selectWhite, selectGrayPlus, selectBlack, selectGrayMinus].forEach((button) => {
+          button.classList.add("hidden");
+        });
+        buttons.forEach((button) => {
+          button.classList.remove("hidden")
+        });
+        }
 
       // 現在のプレイヤーに応じて表示
       if (currentPlayer === "black") {
-        selectBlack.style.display = "inline-block";
-        selectGrayMinus.style.display = "inline-block";
+        showButtons([selectBlack,selectGrayMinus]);
+        // selectBlack.style.display = "inline-block";
+        // selectGrayMinus.style.display = "inline-block";
         selectPiece("black"); // 自動で黒を選択
       } else if (currentPlayer === "white") {
-        selectWhite.style.display = "inline-block";
-        selectGrayPlus.style.display = "inline-block";
+        showButtons([selectWhite,selectGrayPlus]);
+        // selectWhite.style.display = "inline-block";
+        // selectGrayPlus.style.display = "inline-block";
         selectPiece("white"); // 自動で白を選択
       }
     }
-
 
     // 現在のプレイヤーを表示
     function updateCurrentPlayerDisplay() {
@@ -418,10 +416,13 @@
     });
 
 
+    
+
 
     function startGame() {
       document.getElementById("start-options").classList.add("hidden");
       document.getElementById("info").classList.remove("hidden");
+      document.getElementById("button-container").classList.remove("hidden");
       document.getElementById("game-board").classList.remove("hidden");
       document.getElementById("reset-button").classList.remove("hidden");
       initBoard();
@@ -453,6 +454,7 @@
       if (emptyCells === 0 || blackMoves === 0 && whiteMoves === 0) {
         showPopupMessage(`ゲームが終了しました。測定ボタンを押してください。`);
         const measureButton = document.createElement("button");
+        document.getElementById("reset-button").classList.add("hidden");
         measureButton.textContent = "測定";
         measureButton.addEventListener("click", finalizeGame);
         document.body.appendChild(measureButton);
@@ -472,6 +474,7 @@
           board[Math.floor(index / boardSize)][index % boardSize] =
             Math.random() < 0.5 ? "white" : "black";
         }
+        document.getElementById("reset-button").classList.remove("hidden");
       });
 
       updateBoard();
@@ -606,7 +609,7 @@
     }
     .cell.grayPlus::before {
       content: "+";
-      color: black;
+      color: white;
       font-weight: bold;
       font-size: 24px;
     }
@@ -614,8 +617,9 @@
     .cell.grayMinus::before {
       content: "-";
       color: black;
-      font-weight: bold;
-      font-size: 24px;
+      /* font-weight: bold; */
+      font-size: 34px;
+      /* text-align: center; */
     }
 
     .cell.grayPlus, .cell.grayMinus {
@@ -625,10 +629,21 @@
 
     button {
       display: inline-block;
+      font-size: 1rem; /* テキストサイズを大きく */
+      padding: 10px 20px; /* 内側の余白を大きく */
+      border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+      width: 150px; /* ボタンの幅を指定 */
+      height: 45px; /* ボタンの高さを指定 */
+
     }
 
     button[style="display: none;"] {
       display: none;
+      font-size: 1rem; /* テキストサイズを大きく */
+      padding: 10px 20px; /* 内側の余白を大きく */
+      border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+      width: 150px; /* ボタンの幅を指定 */
+      height: 45px; /* ボタンの高さを指定 */
     }
 
     .hidden {
