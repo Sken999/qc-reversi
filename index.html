@@ -7,695 +7,142 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>QC Reversi
-  </h1>
+  <h1>QC Reversi</h1>
+  <h2>
+    ～Quantum Compution Reversi～
+  </h2>
   <div id="game-intro">
-    <h2>リバーシゲームの説明</h2>
+  <h3>ゲームの説明</h3>
     <p>
-      このゲームは、各コマを量子ビットに見立て、XゲートとHゲートを作用させて遊ぶリバーシゲームです。<br>
-      ルール：
-      <ul>
-        <li>白のプレイヤーは白(|0>)または灰色(|+>)を使用し、黒(|1>)または灰色(|->)を挟みます。</li>
-        <li>黒のプレイヤーは黒(|1>)または灰色(|->)を使用し、白(|0>)または灰色(|+>)を挟みます。</li>
-        <li>両プレイヤーは、白と灰色の駒をそれぞれ15枚ずつ保持し、それぞれの手番でどちらかを選んで使用できます。</li>
-        <li>自身の駒と挟み込む位置に配置することが可能で、白または黒はXゲートを、灰色駒はHゲートを挟んだ駒に作用させます。</li>
-        <li>最後に測定を行い、灰色は50％の確率で白か黒に確定します。最終的に駒が多い方が勝者となります。</li>
-        <li></li>
-      </ul>
+      このゲームは、量子コンピュータの概念を用いたリバーシゲームです<br><br>
+      従来のリバーシのルールである「相手の駒を自分の駒で挟む」というところは変わりません<br>
+      駒の種類、挟んだ時の効果を量子コンピュータの特徴になぞらえて追加しました<br>
+      以下、Step1からが量子コンピュータ的なルールになっています。Step数が増えるほど複雑性が増すので、一つ一つ試してみてください<br>
+      ルールは下にスクロール！<br>
     </p>
   </div>
+  <div id="gate-options">
+    <p>どのルールで始めるか選んでください</p>
+    <button class= "step-button" id="step0">Step0: X gate</button><br>
+    <button class= "step-button" id="step1">Step1: X/H gate</button><br>
+    <button class= "step-button" id="step2">Step2: X/H/Y gate</button><br>
+    <button class= "step-button" id="step3">Step3: X/H/Z gate</button><br>
+    <button class= "step-button" id="step4">Step4: X/H/Y/Z gate</button><br>
+  </div>
+
+  <div id="2bit-gate-options">
+    <p>オプション：ゲーム中に一度だけ使える特殊操作です(複数選択可)</p>
+    <button class= "opt-button" id="Option-CNOT">CNOT gate</button>
+    <button class= "opt-button" id="Option-SWAP">SWAP gate</button>
+  </div>
+
   <div id="game-options">
+    <h3>Click to start!</h3>
     <button id="single-player">1 Player</button>
     <button id="two-players">2 Players</button>
   </div>
+
+  <div id="game-rule">
+    <h2>
+      ～ルール～
+    </h2>
+    <h3>勝利条件</h3>
+      <p>
+        盤面がすべて埋まる、もしくは両者駒がおけなくなったら修了し、最後に測定を行います<br>
+        測定時、灰色の駒は50%の確率で白か黒に確定し、最終的に駒数の多いほうが勝利となります<br>
+      </p>
+    <h3>駒の種類</h3>
+    <p>
+      White<span class="CircleWhite"></span>: 測定すると100%白になる状態。白の持ち駒<br>
+      Black<span class="CircleBlack"></span>: 測定すると100%黒になる状態。黒の持ち駒<br>
+      Gray(+)<span class="CircleGrayPlus">+</span>: 測定すると50%の確率で白、50%の確率で黒になる状態。白の持ち駒<br>
+      Gray(-)<span class="CircleGrayMinus">-</span>:  測定すると50%の確率で白、50%の確率で黒になる状態。黒の持ち駒
+    </p>
+    <h3>駒を置いた時の効果</h3>
+    <p>
+      Xゲート：<br>
+      白 / 黒を置いて自分の駒と挟んだ時に発動する<br>
+      挟んだ駒の、白と黒を反転させる<br>
+      <span class="CircleWhite"></span>↔<span class="CircleBlack"></span><br>
+      <br>
+      Hゲート：<br>
+      Gray(+) / Gray(-)を置いて自分の駒と挟んだ時に発動する<br>
+      挟んだ駒に対して以下効果を与える<br>
+      <span class="CircleWhite"></span>→<span class="CircleGrayPlus">+</span><br>
+      <span class="CircleBlack"></span>→<span class="CircleGrayMinus">-</span><br>
+      <span class="CircleGrayPlus">+</span>→<span class="CircleWhite"></span><br>
+      <span class="CircleGrayMinus">-</span>→<span class="CircleBlack"></span><br>
+      <br>
+      Yゲート：<br>
+      白 / 黒を置いて自分の駒と挟んだ時に発動する<br>
+      挟んだ駒に対して以下効果を与える<br>
+      <span class="CircleWhite"></span>→<span class="CircleBlack"></span><br>
+      <span class="CircleBlack"></span>→<span class="CircleWhite"></span><br>
+      <span class="CircleGrayPlus">+</span>→<span class="CircleGrayMinus">-</span><br>
+      <span class="CircleGrayMinus">-</span>→<span class="CircleGrayPlus">+</span><br> 
+      <br>
+      Zゲート：<br>
+      Gray(+) / Gray(-)を置いて、自分の駒と挟んだ時に発動する<br>
+      挟んだ駒の、Gray(+)とGray(-)を反転させる<br>
+      <span class="CircleGrayPlus">+</span>↔<span class="CircleGrayMinus">-</span><br>
+      <br>
+      CNOT：<br>
+      黒の駒に使うことができる<br>
+      黒を一つ選択し、左右上下に隣接する一つの駒にXゲートを作用させる<br>
+      ゲーム中、ターンを消費して一度だけ使える<br>
+      <div class = "image-row">
+        <img src="CNOT_Before.png" alt="CNOT説明画像1" class = "image">
+        <span class="arrow">→</span>
+        <img src="CNOT_After.png" alt="CNOT説明画像2" class = "image">
+      </div>
+
+      <br>
+      SWAP：<br>
+      隣接する二つの駒を入れ替える<br>
+      ゲーム中、ターンを消費して一度だけ使える<br>
+      <div class = "image-row">
+      <img src="SWAP_Before.png" alt="CNOT説明画像1" class = "image">
+      <span class="arrow">→</span>
+      <img src="SWAP_After.png" alt="CNOT説明画像2" class = "image">
+    </div>
+    <p>
+  </div>
+
   <div id="start-options" class="hidden">
     <button id="play-first">Play First</button>
     <button id="play-second">Play Second</button>
   </div>
   <div id="info" class="hidden">
+    <div id="current-GameStep">GameMode: Step0: X gate</div><br>
     <div id="current-player">現在の番: 黒</div>
     <div id="piece-info">
-      White: <span id="white-count">15</span>, Gray(+): <span id="grayPlus-count">15</span><br>
-      Black: <span id="black-count">15</span>, Gray(-): <span id="grayMinus-count">15</span>
+      White: <span id="white-count">15</span>
+      Gray(+): <span id="grayPlus-count">15</span>
+      <br>
+      Black: <span id="black-count">15</span>
+      Gray(-): <span id="grayMinus-count">15</span>
     </div>
     <div id="score-board">BLack: 2 | White: 2 | Gray: 0 </div>
   <div id="button-container" class="hidden">
-    <button id="select-white">White</button>
-    <button id="select-grayPlus">Gray(+)</button>
-    <button id="select-black">Black</button>
-    <button id="select-grayMinus">Gray(-)</button>
+    <button class="piece-button" id="select-white">White</button>
+    <button class="piece-button" id="select-grayPlus">Gray(+)</button>
+    <button class="piece-button" id="select-black">Black</button>
+    <button class="piece-button" id="select-grayMinus">Gray(-)</button>
   </div>
+  <div id="gate-button-container" class="hidden">
+    <button class="gate-button" id="select-X">X gate</button>
+    <button class="gate-button" id="select-Y">Y gate</button>
+    <button class="gate-button" id="select-H">H gate</button>
+    <button class="gate-button" id="select-Z">Z gate</button>
+    <button class="gate-button" id="select-CNOT">CNOT</button>
+    <button class="gate-button" id="select-SWAP">SWAP</button>
+  </div>
+
   <div id="popup-message" class="hidden"></div>
   <div id="game-board"></div>
   <button id="reset-button">リセット</button>
 
-  <script>
-    const boardSize = 8;
-    let board;
-    let currentPlayer = "white";
-    let selectedPiece = "white";
-    let isSinglePlayer = false;
-    let isPlayerTurn = true;
-    let cpuPlayer = "white";
+  <script src="script.js"></script>
 
-    let pieces = {
-      white: 15,
-      black: 15,
-      grayPlus: 15,
-      grayMinus: 15,
-    };
-
-    // 初期化
-    function initBoard() {
-      board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
-
-
-      //コマ数初期化
-      pieces = {
-        white: 15,
-        black: 15,
-        grayPlus: 15,
-        grayMinus: 15,
-      };
-
-      // 手番初期化
-      currentPlayer = "white";
-
-      // 初期配置
-      board[3][3] = "white";
-      board[4][4] = "white";
-      board[3][4] = "black";
-      board[4][3] = "black";
-
-
-      const gameBoard = document.getElementById("game-board");
-      gameBoard.innerHTML = "";
-
-      // 駒選択イベントリスナー
-      document.getElementById("select-white").addEventListener("click", () => selectPiece("white"));
-      document.getElementById("select-grayPlus").addEventListener("click", () => selectPiece("grayPlus"));
-      document.getElementById("select-black").addEventListener("click", () => selectPiece("black"));
-      document.getElementById("select-grayMinus").addEventListener("click", () => selectPiece("grayMinus"));
-
-      // // 駒選択イベントリスナーの設定後
-      updatePieceSelector();
-
-      // 駒数の表示更新
-      updatePieceCount();
-
-      // 盤面の生成
-      board.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-          const cellDiv = document.createElement("div");
-          cellDiv.classList.add("cell");
-          cellDiv.dataset.row = rowIndex;
-          cellDiv.dataset.col = colIndex;
-
-          if (cell === "black") {
-            cellDiv.classList.add("black");
-          } else if (cell === "white") {
-            cellDiv.classList.add("white");
-          }
-          if (cell === "grayPlus") {
-            cellDiv.classList.add("grayPlus");
-            cellDiv.textContent = "+";
-          }
-          if (cell === "grayMinus") {
-            cellDiv.classList.add("grayMinus");
-            cellDiv.textContent = "-";
-          }
-
-          cellDiv.addEventListener("click", () => placePiece(rowIndex, colIndex));
-          gameBoard.appendChild(cellDiv);
-        });
-      });
-
-      updateBoard();
-      updateCurrentPlayerDisplay();
-      updateScore();
-      // CPUの初手を処理
-      if (isSinglePlayer && !isPlayerTurn) {
-        setTimeout(cpuMove, 500); // プレイヤーが後攻の場合、CPUが最初の手を実行
-      }
-    }
-
-    //選択した駒が残っていなかった時の処理
-    function selectPiece(piece) {
-      if (pieces[piece] > 0) {
-        selectedPiece = piece;
-        showPopupMessage(`選択中の駒: ${piece}`);
-      } else {
-        // 駒が残っていない場合、別の駒を自動選択
-        const availablePieces = currentPlayer === "black"
-          ? ["black", "grayMinus"]
-          : ["white", "grayPlus"];
-        for (let altPiece of availablePieces) {
-          if (pieces[altPiece] > 0) {
-            selectedPiece = altPiece;
-            showPopupMessage(`選択中の駒: ${altPiece}`);
-            return;
-          }
-        }
-        // すべての駒が無い場合の処理（安全対策として）
-        showPopupMessage("使用可能な駒がありません！");
-      }
-    }
-
-    //HとXの作用を定義
-    function applyPieceEffect(row, col, effect) {
-      const target = board[row][col];
-      if (effect === "X") {
-        if (target === "white") board[row][col] = "black";
-        else if (target === "black") board[row][col] = "white";
-        //Grayに作用しても変化なし。
-        // else if (target === "grayPlus") board[row][col] = "grayPlus";
-        // else if (target === "grayMinus") board[row][col] = "grayMinus";
-      } else if (effect === "H") {
-        if (target === "white") board[row][col] = "grayPlus";
-        else if (target === "black") board[row][col] = "grayMinus";
-        else if (target === "grayPlus") board[row][col] = "white";
-        else if (target === "grayMinus") board[row][col] = "black";
-      }
-    }
-
-    // 駒を置く処理
-    function placePiece(row, col) {
-      if (board[row][col] !== null) return; // すでに駒がある場合は無効
-
-      const flippedPieces = getFlippablePieces(row, col, currentPlayer);
-      if (flippedPieces.length === 0) return; // 挟めない場合は無効
-
-      // 駒を置く
-      board[row][col] = selectedPiece;
-      pieces[selectedPiece]--; // 駒を減少
-      updatePieceCount(); // 駒数を更新
-
-      // XまたはHの効果を選択された駒に基づいて決定
-      const effect = selectedPiece.startsWith("gray") ? "H" : "X";
-      // 挟んだ駒に作用を適用
-      flippedPieces.forEach(([r, c]) => applyPieceEffect(r, c, effect));
-
-      updateBoard();
-      updateScore();
-
-      checkGameOver();
-      // プレイヤー交代またはスキップ
-      if (!checkSkip()) {
-        currentPlayer = currentPlayer === "black" ? "white" : "black";
-        updateCurrentPlayerDisplay();
-      }
-      // 再度スキップを確認（次の手番で置けるか確認）
-      if (checkSkip()) return;
-
-      updateBoard();
-      updateScore();
-      updatePieceSelector(); // 手番に応じて選択可能な駒を更新
-
-      // CPUのターンを実行（シングルプレイヤーで、プレイヤーのターンが終了した場合）
-      if (isSinglePlayer && currentPlayer === cpuPlayer && !checkGameOver()) {
-        setTimeout(cpuMove, 500); // CPUの動きを500ms後に実行
-      }
-    }
-
-    //駒数を更新する
-    function updatePieceCount() {
-      document.getElementById("white-count").textContent = pieces.white;
-      document.getElementById("grayPlus-count").textContent = pieces.grayPlus;
-      document.getElementById("black-count").textContent = pieces.black;
-      document.getElementById("grayMinus-count").textContent = pieces.grayMinus;
-    }
-
-    // 駒を置ける場所をチェック
-    function getFlippablePieces(row, col, player) {
-      const directions = [
-        [-1, 0], [1, 0], [0, -1], [0, 1], // 上下左右
-        [-1, -1], [-1, 1], [1, -1], [1, 1] // 斜め
-      ];
-
-      let flippablePieces = [];
-
-      // 現在のプレイヤーの駒と相手の駒を定義
-      const playerPieces = player === "black" ? ["black", "grayMinus"] : ["white", "grayPlus"];
-      const opponentPieces = player === "black" ? ["white", "grayPlus"] : ["black", "grayMinus"];
-
-
-          directions.forEach(([dx, dy]) => {
-        let r = row + dx;
-        let c = col + dy;
-        let potentialFlips = [];
-
-        while (r >= 0 && r < boardSize && c >= 0 && c < boardSize) {
-          if (board[r][c] === null) break; // 空マスに到達したら終了
-          if (playerPieces.includes(board[r][c])) {
-            flippablePieces = flippablePieces.concat(potentialFlips);
-            break;
-          }
-          if (opponentPieces.includes(board[r][c])) {
-            potentialFlips.push([r, c]); // 挟めるかもしれない駒を追加
-          } else {
-            break; // 自分の駒でも相手の駒でもない場合
-          }
-          r += dx;
-          c += dy;
-        }
-      });
-
-      return flippablePieces;
-    }
-
-    // 置ける場所をハイライト
-    function highlightAvailableMoves() {
-      document.querySelectorAll(".cell").forEach((cell) => {
-        cell.classList.remove("highlight");
-      });
-
-      board.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-          if (board[rowIndex][colIndex] === null) {
-            const flippablePieces = getFlippablePieces(rowIndex, colIndex, currentPlayer);
-            if (flippablePieces.length > 0) {
-              const cellDiv = document.querySelector(
-                `.cell[data-row="${rowIndex}"][data-col="${colIndex}"]`
-              );
-              if (cellDiv) {
-                cellDiv.classList.add("highlight");
-              }
-            }
-          }
-        });
-      });
-    }
-
-    // CPU動作logic
-    function cpuMove() {
-      const moves = [];
-
-      // ランダムに駒を選択
-      if (cpuPlayer == "white") {
-        if (pieces["white"] > 0 && pieces["grayPlus"] > 0){
-          if (Math.random() * (pieces["white"] + pieces["grayPlus"]) < pieces["white"]){
-            selectPiece("white")
-          } else {
-            selectPiece("grayPlus")
-          }
-        }
-      } else {
-        if (pieces["black"] > 0 && pieces["grayMinus"] > 0){
-          if (Math.random() * (pieces["black"] + pieces["grayMinus"]) < pieces["black"]){
-            selectPiece("black")
-          } else {
-            selectPiece("grayMinus")
-          }
-        }
-      }
-
-
-      board.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-          if (board[rowIndex][colIndex] === null) {
-            const flippablePieces = getFlippablePieces(rowIndex, colIndex, currentPlayer, selectedPiece);
-            if (flippablePieces.length > 0) {
-              moves.push({ row: rowIndex, col: colIndex });
-            }
-          }
-        });
-      });
-
-      if (moves.length > 0) {
-        const move = moves[Math.floor(Math.random() * moves.length)];
-        placePiece(move.row, move.col);
-      }
-    }
-
-    // 盤面の更新
-    function updateBoard() {
-      document.querySelectorAll(".cell").forEach((cell) => {
-        const row = cell.dataset.row;
-        const col = cell.dataset.col;
-
-        cell.className = "cell"; // 既存のクラスをリセット
-        cell.textContent = ""; // 既存のテキストをクリア
-
-        if (board[row][col] === "white") {
-          cell.classList.add("white");
-        } 
-        else if (board[row][col] === "black") {
-          cell.classList.add("black");
-        } 
-        else if (board[row][col] === "grayPlus") {
-          cell.classList.add("grayPlus");
-          // cell.textContent = "+"; // 駒のマークを追加
-        } 
-        else if (board[row][col] === "grayMinus") {
-          cell.classList.add("grayMinus");
-          // cell.textContent = "-"; // 駒のマークを追加
-        }
-      });
-
-      highlightAvailableMoves();
-    }
-
-
-
-
-    //駒選択ボタンの表示更新関数
-    function updatePieceSelector() {
-      const selectWhite = document.getElementById("select-white");
-      const selectGrayPlus = document.getElementById("select-grayPlus");
-      const selectBlack = document.getElementById("select-black");
-      const selectGrayMinus = document.getElementById("select-grayMinus");
-
-      function showButtons(buttons) {
-        [selectWhite, selectGrayPlus, selectBlack, selectGrayMinus].forEach((button) => {
-          button.classList.add("hidden");
-        });
-        buttons.forEach((button) => {
-          button.classList.remove("hidden")
-        });
-        }
-
-      // 現在のプレイヤーに応じて表示
-      if (currentPlayer === "black") {
-        showButtons([selectBlack,selectGrayMinus]);
-        // selectBlack.style.display = "inline-block";
-        // selectGrayMinus.style.display = "inline-block";
-        selectPiece("black"); // 自動で黒を選択
-      } else if (currentPlayer === "white") {
-        showButtons([selectWhite,selectGrayPlus]);
-        // selectWhite.style.display = "inline-block";
-        // selectGrayPlus.style.display = "inline-block";
-        selectPiece("white"); // 自動で白を選択
-      }
-    }
-
-    // 現在のプレイヤーを表示
-    function updateCurrentPlayerDisplay() {
-      const playerDisplay = document.getElementById("current-player");
-      playerDisplay.textContent = `現在の番: ${currentPlayer === "black" ? "黒" : "白"}`;
-    }
-
-    // スコア更新
-    function updateScore() {
-      let blackCount = 0;
-      let whiteCount = 0;
-      let grayCount = 0;
-
-      board.forEach(row => {
-        row.forEach(cell => {
-          if (cell === "black") blackCount++;
-          if (cell === "white") whiteCount++;
-          if (cell === "grayPlus") grayCount++;
-          if (cell === "grayMinus") grayCount++;
-        });
-      });
-
-      const scoreBoard = document.getElementById("score-board");
-      scoreBoard.textContent = `Black: ${blackCount} | White: ${whiteCount} | Gray: ${grayCount}`;
-    }
-
-    // ポップアップメッセージ
-    function showPopupMessage(message) {
-      const popup = document.getElementById("popup-message");
-      popup.textContent = message;
-      popup.classList.remove("hidden");
-      setTimeout(() => {
-        popup.classList.add("hidden");
-      }, 1000);
-    }
-
-    // ゲームモードの選択Event listeners
-    document.addEventListener("DOMContentLoaded", () => {
-      // イベントリスナーを設定
-      document.getElementById("single-player").addEventListener("click", () => {
-        isSinglePlayer = true; // 1人用モードを有効化
-        document.getElementById("game-options").classList.add("hidden");
-        document.getElementById("start-options").classList.remove("hidden");
-      });
-
-      document.getElementById("two-players").addEventListener("click", () => {
-        isSinglePlayer = false; // 2人用モードを有効化
-        document.getElementById("game-options").classList.add("hidden");
-        startGame();
-      });
-
-      document.getElementById("play-first").addEventListener("click", () => {
-        isPlayerTurn = true; // プレイヤーが先攻
-        cpuPlayer = "black";
-        startGame();
-      });
-
-      document.getElementById("play-second").addEventListener("click", () => {
-        isPlayerTurn = false; // プレイヤーが後攻
-        cpuPlayer = "white";
-        startGame();
-      });
-    });
-
-
-    
-
-
-    function startGame() {
-      document.getElementById("start-options").classList.add("hidden");
-      document.getElementById("info").classList.remove("hidden");
-      document.getElementById("button-container").classList.remove("hidden");
-      document.getElementById("game-board").classList.remove("hidden");
-      document.getElementById("reset-button").classList.remove("hidden");
-      initBoard();
-    }
-
-
-    // ゲーム終了判定
-    function checkGameOver() {
-      let blackMoves = 0;
-      let whiteMoves = 0;
-      let emptyCells = 0;
-
-      board.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-          if (board[rowIndex][colIndex] === null) {
-            emptyCells++; // 空セルをカウント
-            if (getFlippablePieces(rowIndex, colIndex, "black").length > 0) {
-              blackMoves++;
-            }
-            if (getFlippablePieces(rowIndex, colIndex, "white").length > 0) {
-              whiteMoves++;
-            }
-          }
-        });
-      });
-
-
-      // 測定ボタンの表示
-      if (emptyCells === 0 || blackMoves === 0 && whiteMoves === 0) {
-        showPopupMessage(`ゲームが終了しました。測定ボタンを押してください。`);
-        const measureButton = document.createElement("button");
-        document.getElementById("reset-button").classList.add("hidden");
-        measureButton.textContent = "測定";
-        measureButton.addEventListener("click", finalizeGame);
-        document.body.appendChild(measureButton);
-        return true; // ゲーム終了
-      }
-      return false; // ゲーム継続
-    }
-
-    //
-    function finalizeGame() {
-      board.flat().forEach((cell, index) => {
-        if (cell === "grayPlus") {
-          board[Math.floor(index / boardSize)][index % boardSize] =
-            Math.random() < 0.5 ? "white" : "black";
-        }
-        if (cell === "grayMinus") {
-          board[Math.floor(index / boardSize)][index % boardSize] =
-            Math.random() < 0.5 ? "white" : "black";
-        }
-        document.getElementById("reset-button").classList.remove("hidden");
-      });
-
-      updateBoard();
-      updateScore();
-      const whiteCount = board.flat().filter(c => c === "white").length;
-      const blackCount = board.flat().filter(c => c === "black").length;
-      if (whiteCount == blackCount) {
-        showPopupMessage(`引き分け！`);
-      } else {
-        const winner = whiteCount > blackCount ? "白" : "黒";
-      showPopupMessage(`勝者: ${winner}`);
-      }
-    }
-
-
-    // スキップ判定
-    function checkSkip() {
-      let availableMoves = 0;
-      let emptyCells = 0;
-
-      board.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-          if (board[rowIndex][colIndex] === null) {
-            emptyCells++; // 空セルをカウント
-            if (getFlippablePieces(rowIndex, colIndex, currentPlayer).length > 0) {
-              availableMoves++;
-            }
-          }
-        });
-      });
-
-      // 全ての盤面が埋まった場合
-      if (emptyCells === 0) {
-        showPopupMessage("ゲームが終了しました。測定ボタンを押して結果を確定させてください。");
-        return true;
-      }
-      
-      if (availableMoves === 0) {
-        if (currentPlayer === "black" && pieces.black > 0) {
-          // pieces.black--;
-          pieces.grayPlus++;
-        } else if (currentPlayer === "black" && pieces.black == 0) {
-          // pieces.grayMinus--;
-          pieces.grayPlus++;
-        } else if (currentPlayer === "white" && pieces.white > 0) {
-          // pieces.white--;
-          pieces.grayMinus++;
-        } else if (currentPlayer === "white" && pieces.white == 0) {
-          // pieces.grayPlus--;
-          pieces.grayMinus++;
-        }
-        showPopupMessage(`${currentPlayer === "black" ? "黒" : "白"}は置ける場所がありません。スキップします。`);
-        currentPlayer = currentPlayer === "black" ? "white" : "black"; // スキップ時もプレイヤーを交代
-        updateCurrentPlayerDisplay();
-        updatePieceCount();
-        updateBoard(); // スキップ後の駒表示を更新
-        highlightAvailableMoves(); // 新しい手番に基づいてハイライトを更新
-        return true;
-      }
-      return false;
-    }
-
-    // 初期化
-    document.getElementById("reset-button").addEventListener("click", initBoard);
-    initBoard();
-  </script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-      background-color: #f0f0f0;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    #current-player {
-      margin-bottom: 20px;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    #score-board {
-      margin-top: 10px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    #game-board {
-      display: grid;
-      grid-template-columns: repeat(8, 50px);
-      grid-gap: 2px;
-      margin: 20px auto;
-      width: 404px;
-    }
-
-    .cell {
-      width: 50px;
-      height: 50px;
-      background-color: green;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #000;
-    }
-
-    .cell.black {
-      background-color: black;
-      border-radius: 50%;
-    }
-
-    .cell.white {
-      background-color: white;
-      border-radius: 50%;
-    }
-
-    .cell.highlight {
-      background-color: yellow;
-      opacity: 0.8;
-    }
-
-    #popup-message {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-      background-color: #ffffe0;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      display: inline-block;
-    }
-    .cell.grayPlus::before {
-      content: "+";
-      color: white;
-      font-weight: bold;
-      font-size: 24px;
-    }
-
-    .cell.grayMinus::before {
-      content: "-";
-      color: black;
-      /* font-weight: bold; */
-      font-size: 34px;
-      /* text-align: center; */
-    }
-
-    .cell.grayPlus, .cell.grayMinus {
-      background-color: gray;
-      border-radius: 50%;
-    }
-
-    button {
-      display: inline-block;
-      font-size: 1rem; /* テキストサイズを大きく */
-      padding: 10px 20px; /* 内側の余白を大きく */
-      border-radius: 8px; /* ボタンの角を丸くする（オプション） */
-      width: 150px; /* ボタンの幅を指定 */
-      height: 45px; /* ボタンの高さを指定 */
-
-    }
-
-    button[style="display: none;"] {
-      display: none;
-      font-size: 1rem; /* テキストサイズを大きく */
-      padding: 10px 20px; /* 内側の余白を大きく */
-      border-radius: 8px; /* ボタンの角を丸くする（オプション） */
-      width: 150px; /* ボタンの幅を指定 */
-      height: 45px; /* ボタンの高さを指定 */
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    /* ボタンがフォーカスされたとき */
-    /* button:focus {
-      background-color: yellow; /* 塗りつぶしの色 */
-      color: black; /* テキスト色を変更（必要に応じて） */
-    } */
-
-  </style>
 </body>
 </html>

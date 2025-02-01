@@ -41,11 +41,15 @@ h1 {
 }
 
 .cell.black {
+  width: 46px;
+  height: 46px;
   background-color: black;
   border-radius: 50%;
 }
 
 .cell.white {
+  width: 46px;
+  height: 46px;
   background-color: white;
   border-radius: 50%;
 }
@@ -66,34 +70,187 @@ h1 {
   border-radius: 5px;
   display: inline-block;
 }
-
 .cell.grayPlus::before {
   content: "+";
-  color: black;
+  color: white;
   font-weight: bold;
   font-size: 24px;
 }
 
 .cell.grayMinus::before {
+  /* position: relative; /* 中央配置の基準 */
   content: "-";
   color: black;
-  font-weight: bold;
-  font-size: 24px;
+  font-size: 34px;
 }
 
 .cell.grayPlus, .cell.grayMinus {
+  width: 46px;
+  height: 46px;
   background-color: gray;
   border-radius: 50%;
 }
 
+.cell.highlightBlue {
+  border: 3px solid blue;
+  border-radius: 50% /*駒の形を維持する場合に使用 */
+}
+
+.cell.highlightRed {
+  border: 1px solid black;
+  box-shadow: 0 0 0 1px red; /* 外側に赤い線を追加 */
+  border-radius: 50% /*駒の形を維持する場合に使用 */
+}
+
 button {
   display: inline-block;
+  font-size: 1rem; /* テキストサイズを大きく */
+  padding: 10px 20px; /* 内側の余白を大きく */
+  border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+  width: 150px; /* ボタンの幅を指定 */
+  height: 45px; /* ボタンの高さを指定 */
 }
 
 button[style="display: none;"] {
   display: none;
+  font-size: 1rem; /* テキストサイズを大きく */
+  padding: 10px 20px; /* 内側の余白を大きく */
+  border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+  width: 150px; /* ボタンの幅を指定 */
+  height: 45px; /* ボタンの高さを指定 */
 }
 
 .hidden {
   display: none;
+}
+
+.step-button {
+  display: inline-block;
+  font-size: 1rem; /* テキストサイズを大きく */
+  padding: 5px 10px; /* 内側の余白を大きく */
+  border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+  width: 250px; /* ボタンの幅を指定 */
+  height: 30px; /* ボタンの高さを指定 */
+}
+.step-button:hover{
+  background-color: white;
+}
+.step-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+
+.opt-button {
+  font-size: 1rem; /* テキストサイズを大きく */
+  padding: 10px 20px; /* 内側の余白を大きく */
+  border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+  width: 150px; /* ボタンの幅を指定 */
+  height: 40px; /* ボタンの高さを指定 */
+}
+.step-button:hover{
+  background-color: white;
+}
+.opt-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+
+.gate-button {
+  font-size: 1rem; /* テキストサイズを大きく */
+  padding: 10px 20px; /* 内側の余白を大きく */
+  border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+  width: 150px; /* ボタンの幅を指定 */
+  height: 40px; /* ボタンの高さを指定 */
+}
+.gate-button:hover{
+  background-color: white;
+}
+.gate-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+.piece-button {
+  font-size: 1rem; /* テキストサイズを大きく */
+  padding: 10px 20px; /* 内側の余白を大きく */
+  border-radius: 8px; /* ボタンの角を丸くする（オプション） */
+  width: 150px; /* ボタンの幅を指定 */
+  height: 40px; /* ボタンの高さを指定 */
+}
+.piece-button:hover{
+  background-color: white;
+}
+.piece-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+
+/* 解説文中の描画 */
+
+/* 解説文中の描画 */
+p {
+  text-align: center; /* 全体のテキスト中央揃え */
+  line-height: 1.8; /* 行間の調整 */
+}
+
+.CircleWhite,
+.CircleBlack,
+.CircleGrayPlus,
+.CircleGrayMinus {
+  display: inline-flex; /* フレックスボックスでアイコンを中央揃え */
+  justify-content: center; /* 横方向の中央揃え */
+  align-items: center; /* 縦方向の中央揃え */
+  width: 20px; /* 円の幅 */
+  height: 20px; /* 円の高さ */
+  border-radius: 50%; /* 円形にする */
+  margin: 0 5px; /* 左右の余白 */
+  font-weight: bold;
+  font-size: 12px; /* フォントサイズ */
+  vertical-align: middle; /* テキストの高さに合わせて垂直揃え */
+}
+
+.CircleWhite {
+  background-color: white;
+  border: 1px solid black;
+}
+
+.CircleBlack {
+  background-color: black;
+  border: 1px solid black;
+}
+
+.CircleGrayPlus {
+  background-color: gray;
+  color: white; /* プラス記号の色 */
+  border: 1px solid black;
+}
+
+.CircleGrayMinus {
+  background-color: gray;
+  color: black; /* マイナス記号の色 */
+  border: 1px solid black;
+}
+
+.image-row {
+  display: flex; 
+  vertical-align: middle; /* テキストの高さに合わせて垂直揃え */
+  align-items: center; /* 縦方向の中央揃え */
+  justify-content: center;     /* 水平方向の中央揃え */
+  gap: 10px;                   /* 画像と矢印の間のスペース */
+}
+
+.image {
+  width: 80px;                /* 画像のサイズ調整 */
+  height: auto;
+}
+
+.arrow {
+  font-size: 1.5rem;             /* 矢印のサイズ調整 */
 }
