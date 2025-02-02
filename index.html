@@ -17,12 +17,13 @@
       このゲームは、量子コンピュータの概念を用いたリバーシゲームです<br><br>
       従来のリバーシのルールである「相手の駒を自分の駒で挟む」というところは変わりません<br>
       駒の種類、挟んだ時の効果を量子コンピュータの特徴になぞらえて追加しました<br>
-      以下、Step1からが量子コンピュータ的なルールになっています。Step数が増えるほど複雑性が増すので、一つ一つ試してみてください<br>
+      以下、Step1からが量子コンピュータ的なルールになっています<br>
+      Step数が増えるほど複雑性が増すので、一つ一つ試してみてください<br>
       ルールは下にスクロール！<br>
     </p>
   </div>
   <div id="gate-options">
-    <p>どのルールで始めるか選んでください</p>
+    <p>どのモードで始めるか選んでください</p>
     <button class= "step-button" id="step0">Step0: X gate</button><br>
     <button class= "step-button" id="step1">Step1: X/H gate</button><br>
     <button class= "step-button" id="step2">Step2: X/H/Y gate</button><br>
@@ -141,6 +142,7 @@
   <div id="popup-message" class="hidden"></div>
   <div id="game-board"></div>
   <button id="reset-button">リセット</button>
+  <button id="measure-button" class="hidden">測定</button>
 
   <script src="script.js"></script>
 

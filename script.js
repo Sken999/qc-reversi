@@ -125,6 +125,7 @@ function startGame() {
 // 盤面の初期化 //
 function initBoard() {
   initVal()
+
   board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
   //コマ数初期化
   if (selectedStep == "step0") {
@@ -339,7 +340,7 @@ function playerChange () {
   updatePieceSelector(); // 手番に応じて選択可能な駒を更新
 
   // CPUのターンを実行（シングルプレイヤーで、プレイヤーのターンが終了した場合）
-  if (isSinglePlayer && currentPlayer === cpuPlayer && !checkGameOver()) {
+  if (isSinglePlayer && currentPlayer === cpuPlayer && !checkGameOver() && !checkSkip()) {
     setTimeout(cpuMove, 500); // CPUの動きを500ms後に実行
   }
 
@@ -720,11 +721,13 @@ function checkGameOver() {
   // もしどちらも駒を置くことができなければ、コメント表示して測定ボタンの表示
   if (emptyCells === 0 || blackMoves === 0 && whiteMoves === 0) {
     showPopupMessage(`ゲームが終了しました。測定ボタンを押してください。`);
-    const measureButton = document.createElement("button");
+    // const measureButton = document.createElement("button");
     document.getElementById("reset-button").classList.add("hidden");
-    measureButton.textContent = "測定";
-    measureButton.addEventListener("click", finalizeGame);
-    document.body.appendChild(measureButton);
+    document.getElementById("measure-button").classList.remove("hidden");
+    document.getElementById("measure-button").addEventListener("click", () => finalizeGame());
+    // measureButton.textContent = "測定";
+    // measureButton.addEventListener("click", finalizeGame);
+    // document.body.appendChild(measureButton);
     return true; // ゲーム終了
     }
   return false; // ゲーム継続
@@ -754,6 +757,7 @@ function finalizeGame() {
     const winner = whiteCount > blackCount ? "白" : "黒";
   showPopupMessage(`勝者: ${winner}`);
   }
+  document.getElementById("measure-button").classList.add("hidden");
 }
 
 // スキップ判定
@@ -803,7 +807,7 @@ return false;
 
 // リセットボタンによる初期化
 document.getElementById("reset-button").addEventListener("click", initBoard);
-initBoard();
+// initBoard();
 
 
 
