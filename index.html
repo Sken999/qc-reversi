@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>QC Reversi</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <h1>QC Reversi</h1>
@@ -54,57 +54,118 @@
       </p>
     <h3>駒の種類</h3>
     <p>
-      White<span class="CircleWhite"></span>: 測定すると100%白になる状態。白の持ち駒<br>
-      Black<span class="CircleBlack"></span>: 測定すると100%黒になる状態。黒の持ち駒<br>
-      Gray(+)<span class="CircleGrayPlus">+</span>: 測定すると50%の確率で白、50%の確率で黒になる状態。白の持ち駒<br>
-      Gray(-)<span class="CircleGrayMinus">-</span>:  測定すると50%の確率で白、50%の確率で黒になる状態。黒の持ち駒
+      White<img src="assets/whitePiece.png" class="explanation-piece">: 測定すると100%白になる状態。白の持ち駒<br>
+      Black<img src="assets/blackPiece.png" class="explanation-piece">: 測定すると100%黒になる状態。黒の持ち駒<br>
+      Gray(+)<img src="assets/grayPlusPiece.png" class="explanation-piece">: 測定すると50%の確率で白、50%の確率で黒になる状態。白の持ち駒<br>
+      Gray(-)<img src="assets/grayMinusPiece.png" class="explanation-piece">: 測定すると50%の確率で白、50%の確率で黒になる状態。黒の持ち駒
     </p>
     <h3>駒を置いた時の効果</h3>
     <p>
       Xゲート：<br>
       白 / 黒を置いて自分の駒と挟んだ時に発動する<br>
       挟んだ駒の、白と黒を反転させる<br>
-      <span class="CircleWhite"></span>↔<span class="CircleBlack"></span><br>
+      <img src="assets/whitePiece.png" class="explanation-piece">↔<img src="assets/blackPiece.png" class="explanation-piece"><br>
       <br>
       Hゲート：<br>
       Gray(+) / Gray(-)を置いて自分の駒と挟んだ時に発動する<br>
       挟んだ駒に対して以下効果を与える<br>
-      <span class="CircleWhite"></span>→<span class="CircleGrayPlus">+</span><br>
-      <span class="CircleBlack"></span>→<span class="CircleGrayMinus">-</span><br>
-      <span class="CircleGrayPlus">+</span>→<span class="CircleWhite"></span><br>
-      <span class="CircleGrayMinus">-</span>→<span class="CircleBlack"></span><br>
+      <img src="assets/whitePiece.png" class="explanation-piece">→<img src="assets/grayPlusPiece.png" class="explanation-piece"><br>
+      <img src="assets/blackPiece.png" class="explanation-piece">→<img src="assets/grayMinusPiece.png" class="explanation-piece"><br>
+      <img src="assets/grayPlusPiece.png" class="explanation-piece">→<img src="assets/whitePiece.png" class="explanation-piece"><br>
+      <img src="assets/grayMinusPiece.png" class="explanation-piece">→<img src="assets/blackPiece.png" class="explanation-piece"><br>
       <br>
       Yゲート：<br>
       白 / 黒を置いて自分の駒と挟んだ時に発動する<br>
       挟んだ駒に対して以下効果を与える<br>
-      <span class="CircleWhite"></span>→<span class="CircleBlack"></span><br>
-      <span class="CircleBlack"></span>→<span class="CircleWhite"></span><br>
-      <span class="CircleGrayPlus">+</span>→<span class="CircleGrayMinus">-</span><br>
-      <span class="CircleGrayMinus">-</span>→<span class="CircleGrayPlus">+</span><br> 
+      <img src="assets/whitePiece.png" class="explanation-piece">→<img src="assets/blackPiece.png" class="explanation-piece"><br>
+      <img src="assets/blackPiece.png" class="explanation-piece">→<img src="assets/whitePiece.png" class="explanation-piece"><br>
+      <img src="assets/grayPlusPiece.png" class="explanation-piece">→<img src="assets/grayMinusPiece.png" class="explanation-piece"><br>
+      <img src="assets/grayMinusPiece.png" class="explanation-piece">→<img src="assets/grayPlusPiece.png" class="explanation-piece"><br>
       <br>
       Zゲート：<br>
       Gray(+) / Gray(-)を置いて、自分の駒と挟んだ時に発動する<br>
       挟んだ駒の、Gray(+)とGray(-)を反転させる<br>
-      <span class="CircleGrayPlus">+</span>↔<span class="CircleGrayMinus">-</span><br>
+      <img src="assets/grayPlusPiece.png" class="explanation-piece">↔<img src="assets/grayMinusPiece.png" class="explanation-piece"><br>
       <br>
-      CNOT：<br>
-      黒の駒に使うことができる<br>
-      黒を一つ選択し、左右上下に隣接する一つの駒にXゲートを作用させる<br>
+      CNOT(Controlled NOT gate)：<br>
       ゲーム中、ターンを消費して一度だけ使える<br>
-      <div class = "image-row">
-        <img src="CNOT_Before.png" alt="CNOT説明画像1" class = "image">
-        <span class="arrow">→</span>
-        <img src="CNOT_After.png" alt="CNOT説明画像2" class = "image">
-      </div>
+      隣接する２つの駒を選択する。相手の駒を選択すると、隣接する駒にXゲートを作用させることができる<br>
+      また、灰色の駒を制御駒として選択すると、以下のルールに従って駒が反転する<br>
+
+      <table class="cnot-table">
+        <tr>
+          <th>制御駒</th>
+          <th>作用駒</th>
+          <th>→</th>
+          <th>結果</th>
+        </tr>
+        <tr>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+          <td>→</td>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+        </tr>
+        <tr>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+          <td>→</td>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+        </tr>
+        <tr>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+          <td>→</td>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+        </tr>
+        <tr>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+          <td>→</td>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+        </tr>
+        <tr>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+          <td>相手駒</td>
+          <td>→</td>
+          <td><img src="assets/whiteBlackPiece.png" class="explanation-piece"><img src="assets/blackWhitePiece.png" class="explanation-piece"></td>
+        </tr>
+        <tr>
+          <td><img src="assets/grayPlusPiece.png" class="explanation-piece"></td>
+          <td>自分駒</td>
+          <td>→</td>
+          <td><img src="assets/whiteBlackPiece.png" class="explanation-piece"><img src="assets/whiteBlackPiece.png" class="explanation-piece"></td>
+        </tr>
+        <tr>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+          <td>相手駒</td>
+          <td>→</td>
+          <td><img src="assets/blackWhitePiece.png" class="explanation-piece"><img src="assets/whiteBlackPiece.png" class="explanation-piece"></td>
+        </tr>
+        <tr>
+          <td><img src="assets/grayMinusPiece.png" class="explanation-piece"></td>
+          <td>自分駒</td>
+          <td>→</td>
+          <td><img src="assets/blackWhitePiece.png" class="explanation-piece"><img src="assets/blackWhitePiece.png" class="explanation-piece"></td>
+        </tr>
+      </table>
+
+      entangle(エンタングルメント)：<br>
+      <img src="assets/whiteBlackPiece.png" class="explanation-piece">または<img src="assets/blackWhitePiece.png" class="explanation-piece">
+      の状態は、ここではエンタングルメントという状態を表している。量子コンピュータにおける特殊な状態で、<br>
+      この状態になっている駒は、それぞれの駒の状態が互いに依存している。<br>
+      例えば、<img src="assets/whiteBlackPiece.png" class="explanation-piece"><img src="assets/whiteBlackPiece.png" class="explanation-piece">
+      の状態は、白か黒は50%の確率であるが、片方を観測して白だった場合、もう片方は必ず白になる。
+      逆に、<img src="assets/whiteBlackPiece.png" class="explanation-piece"><img src="assets/blackWhitePiece.png" class="explanation-piece">
+      の状態は、白か黒は50%の確率であるが、片方を観測して白だった場合、もう片方は必ず黒になる。<br>
 
       <br>
       SWAP：<br>
       隣接する二つの駒を入れ替える<br>
       ゲーム中、ターンを消費して一度だけ使える<br>
       <div class = "image-row">
-      <img src="SWAP_Before.png" alt="CNOT説明画像1" class = "image">
+      <img src="assets/SWAP_Before.png" alt="CNOT説明画像1" class = "image">
       <span class="arrow">→</span>
-      <img src="SWAP_After.png" alt="CNOT説明画像2" class = "image">
+      <img src="assets/SWAP_After.png" alt="CNOT説明画像2" class = "image">
     </div>
     <p>
   </div>
@@ -144,7 +205,9 @@
   <button id="reset-button">リセット</button>
   <button id="measure-button" class="hidden">測定</button>
 
-  <script src="script.js"></script>
+  <script type="module" src="js/GameMode.js"></script>
+  <script type="module" src="js/main.js"></script>
+
 
 </body>
 </html>

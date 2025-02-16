@@ -1,0 +1,401 @@
+body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 15px;
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+#current-player {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#score-board {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+  margin: 20px auto;
+  max-width: 500px;
+  width: 100%;
+}
+
+.cell {
+  aspect-ratio: 1;
+  background-color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 1px solid #000;
+}
+
+.piece-image {
+  width: 95%;
+  height: 95%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.piece-image.flipping {
+  animation: flip 0.3s ease-in-out;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.piece-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+}
+
+.cell.highlightBlue .piece-image {
+  border: 2px solid blue;
+}
+
+.cell.highlightRed .piece-image {
+  border: 1px solid black;
+  box-shadow: 0 0 0 1px red;
+}
+
+.cell.highlight {
+  background-color: yellow;
+}
+
+#popup-message {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  background-color: #ffffe0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+button {
+  display: inline-block;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 150px;
+  height: 45px;
+}
+
+button[style="display: none;"] {
+  display: none;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 150px;
+  height: 45px;
+}
+
+.hidden {
+  display: none;
+}
+
+.step-button {
+  display: inline-block;
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 8px;
+  width: 250px;
+  height: 30px;
+}
+.step-button:hover{
+  background-color: white;
+}
+.step-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+.opt-button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 150px;
+  height: 40px;
+}
+.step-button:hover{
+  background-color: white;
+}
+.opt-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+.gate-button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 150px;
+  height: 40px;
+}
+.gate-button:hover{
+  background-color: white;
+}
+.gate-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+.piece-button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 150px;
+  height: 40px;
+}
+.piece-button:hover{
+  background-color: white;
+}
+.piece-button.active{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+}
+
+#game-intro,
+#gate-options,
+#2bit-gate-options,
+#game-rule,
+#game-options,
+#info,
+.cnot-table td,
+p {
+  text-align: left;
+}
+
+.cnot-table th,
+.cnot-table td {
+  text-align: center;
+}
+
+#score-board,
+#current-player,
+#piece-info,
+#current-GameStep {
+  text-align: center;
+}
+
+#button-container,
+#gate-button-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.CircleWhite,
+.CircleBlack,
+.CircleGrayPlus,
+.CircleGrayMinus {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 0 5px;
+  font-weight: bold;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.CircleWhite {
+  background-color: white;
+  border: 1px solid black;
+}
+
+.CircleBlack {
+  background-color: black;
+  border: 1px solid black;
+}
+
+.CircleGrayPlus {
+  background-color: gray;
+  color: white;
+  border: 1px solid black;
+}
+
+.CircleGrayMinus {
+  background-color: gray;
+  color: black;
+  border: 1px solid black;
+}
+
+.image-row {
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.image {
+  width: 80px;
+  height: auto;
+}
+
+.arrow {
+  font-size: 1.5rem;
+}
+
+.entanglement-lines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.entanglement-rope {
+  position: fixed;
+  pointer-events: none;
+  object-fit: cover;
+  z-index: 5;
+}
+
+.entanglement-number {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: yellow;
+  padding: 2px;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.entanglement-line {
+  background-color: yellow;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.explanation-piece {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  #game-board {
+    gap: 1px;
+  }
+
+  .piece-button, .gate-button {
+    padding: 8px;
+    font-size: 0.9em;
+    margin: 3px;
+  }
+
+  #button-container, #gate-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  #info {
+    font-size: 0.9em;
+    text-align: center;
+  }
+
+  #score-board {
+    font-size: 0.9em;
+    margin: 10px 0;
+  }
+
+  .entanglement-line {
+    height: 3px;
+  }
+
+  #popup-message {
+    font-size: 0.9em;
+    padding: 10px;
+    max-width: 90%;
+  }
+
+  #game-intro p, #game-rule p {
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+
+  .image-row .image {
+    max-width: 45%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 1.2em;
+  }
+
+  .piece-button, .gate-button {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+
+  #info {
+    font-size: 0.8em;
+  }
+
+  #game-board {
+    gap: 1px;
+  }
+
+  .piece-image {
+    width: 85%;
+    height: 85%;
+  }
+}
+
